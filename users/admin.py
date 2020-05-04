@@ -10,7 +10,20 @@ class CustomUserAdmin(UserAdmin):
     # list_display = ("username", "email", "gender", "language", "currency", "superhost")
     # list_filter = ("language", "currency", "superhost")
     fieldsets = UserAdmin.fieldsets + (
-        ("Banana", {"fields": ("avatar", "gender", "bio")}),
+        (
+            "Custom Profile",
+            {
+                "fields": (
+                    "avatar",
+                    "gender",
+                    "bio",
+                    "birthdate",
+                    "language",
+                    "currency",
+                    "superhost",
+                )
+            },
+        ),
     )
 
     pass
