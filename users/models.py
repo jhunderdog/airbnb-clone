@@ -21,7 +21,7 @@ class User(AbstractUser):
 
     LANGUAGE_CHOICES = [(LANGUAGE_ENGLISH, "ENGLISH"), (LANGUAGE_KOREAN, "KOREAN")]
 
-    avater = models.ImageField(null=True, blank=True)
+    avatar = models.ImageField(null=True, blank=True)
     gender = models.CharField(
         choices=GENDER_CHOICES, max_length=10, null=True, blank=True
     )
