@@ -61,7 +61,7 @@ class Room(core_models.TimeStampedModel):
     name = models.CharField(max_length=140)
     description = models.TextField()
     country = CountryField()
-    city = models.CharField(max_length=80)
+    city = models.CharField(max_length=8)
     price = models.IntegerField()
     address = models.CharField(max_length=140, default="")
     beds = models.IntegerField()
@@ -84,6 +84,10 @@ class Room(core_models.TimeStampedModel):
 
     def __str__(self):
         return self.name
+
+    def save(self, *args, **kwarg):
+        self.city = str.capitalize(self.city)
+        super().save(*args, **kwarg)
 
     def total_rating(self):
         all_reviews = self.reviews.all()
