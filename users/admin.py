@@ -38,7 +38,10 @@ class CustomUserAdmin(UserAdmin):
         "is_superuser",
     )
 
-    list_filter = UserAdmin.list_filter = ("superhost",)
+    list_filter = UserAdmin.list_filter = (
+        "is_superuser",
+        "is_staff",
+    )
 
     pass
 
