@@ -21,3 +21,8 @@ class RoomDetail(DetailView):
     model = models.Room
     pk_url_kwarg = 'potato'
     pass
+
+def search(request):
+    city = request.GET.get("city")
+    print(str.capitalize(city))
+    return render(request, "rooms/search.html", {"city":city})
