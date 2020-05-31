@@ -39,8 +39,8 @@ def search(request):
     baths = int(request.GET.get("baths", 0))
     s_amenities = request.GET.getlist("amenities")
     s_facilities = request.GET.getlist("facilities")
-    instant = request.GET.get("instant", False)
-    superhost = request.GET.get("superhost", False)
+    instant = bool(request.GET.get("instant", False))
+    superhost = bool(request.GET.get("superhost", False))
     
     print(s_amenities, s_facilities)
     print(amenities)
@@ -72,11 +72,20 @@ def search(request):
     if baths != 0:
         filter_args["baths__gte"] = baths
     
+    print(instant, superhost)
     if instant is True:
         filter_args["instant_book"] = True
 
     if superhost is True:
         filter_args["host__superhost"] = True
+
+    if len(s_amenities) > 0:
+        for a_amenity in s_amenities:
+            filter_args["amenities__pk"] = int(a_amenity)
+
+    if len(s_facilities) > 0:
+        for a_facility in s_facilities:
+            filter_args["facilities__pk"] = int(a_facility)
 
     rooms = models.Room.objects.filter(**filter_args)
     return render(request, "rooms/search.html", {**form, **choices, "rooms": rooms})
