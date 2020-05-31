@@ -67,7 +67,7 @@ class Room(core_models.TimeStampedModel):
     address = models.CharField(max_length=140, default="")
     beds = models.IntegerField()
     bedrooms = models.IntegerField()
-    baths = models.IntegerField()
+    baths = models.IntegerField(null=False)
     guests = models.IntegerField()
     check_in = models.TimeField()
     check_out = models.TimeField()
