@@ -22,7 +22,7 @@ class LoginForm(forms.Form):
 class SignUpForm(forms.ModelForm):
     class Meta:
         model = models.User
-        fields = ("first_name", "last_name", "email")
+        fields = ("first_name", "last_name", "email", "birthdate")
 
     password = forms.CharField(widget=forms.PasswordInput)
     password1 = forms.CharField(widget=forms.PasswordInput, label="Confirm Password")
@@ -40,6 +40,6 @@ class SignUpForm(forms.ModelForm):
         email = self.cleaned_data.get("email")
         password = self.cleaned_data.get("password")
         user = super().save(commit=False)
-        user.username = username
+        user.username = email
         user.set_password(password)
         user.save()
