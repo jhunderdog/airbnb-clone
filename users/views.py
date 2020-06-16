@@ -6,6 +6,7 @@ from django.views import View
 from django.views.generic import FormView
 from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import render
+from django.contrib import messages
 from . import models
 from . import forms
 
@@ -89,6 +90,7 @@ class GithubException(Exception):
 
 def github_callback(request):
     try:
+        raise GithubException()
         client_id = os.environ.get("GH_ID")
         client_secret = os.environ.get("GH_SECRET")
         code = request.GET.get("code", None)
@@ -138,4 +140,5 @@ def github_callback(request):
         else:
             raise GithubException()
     except GithubException:
+        messages.error(request, "Something went wrong")
         return redirect(reverse("core:home"))
