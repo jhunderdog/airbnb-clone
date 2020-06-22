@@ -8,11 +8,12 @@ from django.views.generic import FormView, DetailView, UpdateView
 from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import render
 from django.contrib import messages
+from django.contrib.messages.views import SuccessMessageMixin
 from . import models
-from . import forms
+from . import forms, mixins
 
 # Create your views here.
-class LoginView(FormView):
+class LoginView(mixins.LoggedOutOnlyView, FormView):
 
     template_name = "users/login.html"
     form_class = forms.LoginForm
@@ -151,7 +152,7 @@ class UserProfileView(DetailView):
     context_object_name = "user_obj"
 
 
-class UpdateUserView(UpdateView):
+class UpdateUserView(SuccessMessageMixin, UpdateView):
     model = models.User
     template_name = "users/update-profile.html"
     fields = (
@@ -163,6 +164,7 @@ class UpdateUserView(UpdateView):
         "language",
         "currency",
     )
+    success_message = "Profile Updated"
 
     def get_object(self, queryset=None):
         return self.request.user
@@ -176,6 +178,7 @@ class UpdateUserView(UpdateView):
 
 class UpdatePasswordView(PasswordChangeView):
     template_name = "users/update-password.html"
+    success_message = "Password Updated"
 
     def get_form(self, form_class=None):
         form = super().get_form(form_class=form_class)
@@ -185,5 +188,8 @@ class UpdatePasswordView(PasswordChangeView):
             "placeholder": "Confirm new password"
         }
         return form
+
+    def get_success_url(self):
+        return self.request.user.get_absolute_url()
 
     pass
