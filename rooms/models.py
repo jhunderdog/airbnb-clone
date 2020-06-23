@@ -111,6 +111,12 @@ class Room(core_models.TimeStampedModel):
         print(photos)
         return photos
 
+    def get_beds(self):
+        if self.beds == 1:
+            return "1 bed"
+        else:
+            return f"{self.beds} beds"
+
 
 class Photo(core_models.TimeStampedModel):
     caption = models.CharField(max_length=80)
