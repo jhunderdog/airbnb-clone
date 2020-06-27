@@ -1,11 +1,11 @@
-
 from django.http import Http404
 from django.shortcuts import render
-from django.views.generic import ListView, DetailView, View
+from django.views.generic import ListView, DetailView, View, UpdateView
 from django_countries import countries
 from django.core.paginator import Paginator
 
 from . import models, forms
+
 
 class HomeView(ListView):
 
@@ -21,8 +21,9 @@ class HomeView(ListView):
 
 class RoomDetail(DetailView):
     model = models.Room
-    pk_url_kwarg = 'potato'
+    pk_url_kwarg = "pk"
     pass
+
 
 class SearchView(View):
     def get(self, request):
@@ -31,7 +32,7 @@ class SearchView(View):
         if country:
             form = forms.SearchForm(request.GET)
             if form.is_valid():
-                city  = form.cleaned_data.get("city")
+                city = form.cleaned_data.get("city")
                 country = form.cleaned_data.get("country")
                 room_type = form.cleaned_data.get("room_type")
                 price = form.cleaned_data.get("price")
@@ -86,8 +87,33 @@ class SearchView(View):
                 page = request.GET.get("page", 1)
                 rooms = paginator.get_page(page)
 
-                return render(request, "rooms/search.html", {"form": form, "rooms":rooms})
+                return render(
+                    request, "rooms/search.html", {"form": form, "rooms": rooms}
+                )
         else:
             form = forms.SearchForm()
         return render(request, "rooms/search.html", {"form": form})
-        
+
+
+class EditRoomView(UpdateView):
+    model = models.Room
+    template_name = "rooms/room_edit.html"
+    fields = (
+        "name",
+        "description",
+        "country",
+        "city",
+        "price",
+        "address",
+        "beds",
+        "bedrooms",
+        "baths",
+        "guests",
+        "check_in",
+        "check_out",
+        "instant_book",
+        "room_type",
+        "amenities",
+        "facilities",
+        "house_rules",
+    )
