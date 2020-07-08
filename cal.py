@@ -42,7 +42,7 @@ class Calendar(calendar.Calendar):
                 month = now.month
                 past = False
                 if month >= self.month:
-                    if day < today:
+                    if day <= today:
                         past = True
                     else:
                         past = False
