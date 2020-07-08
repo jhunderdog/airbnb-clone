@@ -10,4 +10,9 @@ class ReservationAdmin(admin.ModelAdmin):
     pass
 
 
+@admin.register(models.BookedDay)
+class BookedDayAdmin(admin.ModelAdmin):
+    pass
+
+
 # Register your models here.
