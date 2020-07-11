@@ -30,8 +30,10 @@ def create(request, room, year, month, day):
 
 
 def ReservationDetailView(View):
-    def get(self):
-        pass
+    def get(self, pk):
+        reservation = models.Reservataion.objects.get_or_none(pk=pk)
+        if not reservation:
+            return redirect(reverse("core:home"))
 
 
 # Create your views here.
