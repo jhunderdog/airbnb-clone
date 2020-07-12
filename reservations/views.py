@@ -44,4 +44,19 @@ class ReservationDetailView(View):
         )
 
 
-# Create your views here.
+def edit_reservation(request, pk, verb):
+    reservation = models.Reservation.objects.get_or_none(pk=pk)
+    if not reservation or (
+        reservation.guest != request.user and reservation.room.host != request.user
+    ):
+        raise Http404()
+    if verb == "confirm":
+        reservation.status = models.Reservation.status_confirmed
+    elif verb == "cancel":
+        reservation.status = models.Reservation.status_canceled
+        models.BookedDay.objects.filter(reservation=reservation).delete()
+        pass
+    reservation.save()
+    messages.success(request, "Reservation Updated")
+    return redirect(reverse("reservations:detail", kwargs={"pk": reservation.pk}))
+
