@@ -8,14 +8,15 @@
     </div>
     <div class="mt-10 flex">
         {% get_current_language as LANGUAGE_CODE %}
+        {{LANGUAGE_CODE}}
         <select class="w-1/5 h-8" id="js-lang">
-            <option value="en"
+            <option value="en" 
                 {% if LANGUAGE_CODE == 'en' %}
-                selected
+                selected 
                 {% endif %}
             >English</option>
             <option value="es" 
-                {% if LANUGAGE_CODE == 'es' %}
+                {% if LANGUAGE_CODE == 'es' %}
                 selected 
                 {% endif %}
             >Spanish</option>
